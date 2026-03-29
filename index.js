@@ -8,7 +8,7 @@ import cors from "cors";
 // const express = require('express')                               // equivalent to import; refactored to use import instead of require()
 const app = express()                                               // create new express instance 
 app.use(cors());                                                    // make sure cors is used right after creating the app express instance
-
+app.use(express.json());                                            // make sure this statement occurs AFTER setting up CORS but BEFORE all the routes
 Hello(app); 
 Lab5(app);                                                          // pass reference to express module 
 
