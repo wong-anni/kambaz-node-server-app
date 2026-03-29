@@ -3,9 +3,11 @@
 import express from 'express'; 
 import Hello from "./hello.js"
 import Lab5 from "./lab5/index.js"; 
+import cors from "cors";
 
 // const express = require('express')                               // equivalent to import; refactored to use import instead of require()
 const app = express()                                               // create new express instance 
+app.use(cors());                                                    // make sure cors is used right after creating the app express instance
 
 Hello(app); 
 Lab5(app);                                                          // pass reference to express module 
