@@ -4,11 +4,54 @@ import express from 'express';
 import Hello from "./hello.js"
 import Lab5 from "./lab5/index.js"; 
 import cors from "cors";
+import db from "./kambaz/database/index.js"; 
+import UserRoutes from "./kambaz/users/routes.js";
+import session from "express-session"; 
+import "dotenv/config";   
+import CourseRoutes from "./kambaz/courses/routes.js"; 
+import ModulesRoutes from './kambaz/modules/routes.js';
+
 
 // const express = require('express')                               // equivalent to import; refactored to use import instead of require()
-const app = express()                                               // create new express instance 
-app.use(cors());                                                    // make sure cors is used right after creating the app express instance
+const app = express()                                               // create new express instance  
+
+// make sure cors is used right after creating the app express instance
+app.use(cors({
+  // support cookies
+  credentials: true,        
+  // restrict cross origin resource sharing to the react application                                
+  origin: process.env.CLIENT_URL || "http://localhost:3000",  
+}));
+
+const sessionOptions = { 
+  secret: process.env.SESSION_SECRET || "kambaz", 
+  resave: false, 
+  saveUninitialized: false, 
+};
+if (process.env.SERVER_ENV !== "development") { 
+  sessionOptions.proxy = true; 
+  sessionOptions.cookie = { 
+    sameSite: "none", 
+    secure: true, 
+    domain: process.env.SERVER_URL, 
+  }; 
+} 
+app.use(session(sessionOptions)); 
+
 app.use(express.json());                                            // make sure this statement occurs AFTER setting up CORS but BEFORE all the routes
+
+app.use(
+  session({
+    secret: "any secret string",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+UserRoutes(app, db);
+CourseRoutes(app, db); 
+ModulesRoutes(app, db);
+
 Hello(app); 
 Lab5(app);                                                          // pass reference to express module 
 
