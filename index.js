@@ -10,6 +10,8 @@ import session from "express-session";
 import "dotenv/config";   
 import CourseRoutes from "./kambaz/courses/routes.js"; 
 import ModulesRoutes from './kambaz/modules/routes.js';
+import AssignmentsRoutes from "./kambaz/assignments/routes.js";
+import EnrollmentsRoutes from "./kambaz/enrollments/routes.js";
 
 
 // const express = require('express')                               // equivalent to import; refactored to use import instead of require()
@@ -51,6 +53,8 @@ app.use(
 UserRoutes(app, db);
 CourseRoutes(app, db); 
 ModulesRoutes(app, db);
+AssignmentsRoutes(app, db);
+EnrollmentsRoutes(app, db);
 
 Hello(app); 
 Lab5(app);                                                          // pass reference to express module 
