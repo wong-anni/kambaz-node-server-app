@@ -1,12 +1,13 @@
 import UsersDao from "./dao.js"; 
 
-// let currentUser = null; 
-
-export default function UserRoutes(app, db) { 
- const dao = UsersDao(db); 
+export default function UserRoutes(app) { 
+ const dao = UsersDao(); 
   const createUser = (req, res) => { }; 
   const deleteUser = (req, res) => { }; 
-  const findAllUsers = (req, res) => { }; 
+  const findAllUsers = async (req, res) => { 
+    const users = await dao.findAllUsers(); 
+    res.json(users); 
+  };    
   const findUserById = (req, res) => { }; 
   
   const updateUser = async (req, res) => { 
@@ -19,7 +20,6 @@ export default function UserRoutes(app, db) {
   }; 
 
   const signup = async (req, res) => {
-    // const user = dao.findUserByUsername(req.body.username); 
     const user = await dao.findUserByUsername(req.body.username);
     if (user) { 
       res.status(400).json( 
@@ -32,13 +32,8 @@ export default function UserRoutes(app, db) {
   }; 
 
   const signin = async (req, res) => {
-    // const { username, password } = req.body; 
-    // currentUser = dao.findUserByCredentials(username, password); 
-    // res.json(currentUser);
     const { username, password } = req.body;
-    console.log("INPUT:", username, password);
     const currentUser = await dao.findUserByCredentials(username, password);
-    console.log("FOUND:", currentUser);
     if (currentUser) {
       req.session["currentUser"] = currentUser;
       res.json(currentUser);
@@ -48,7 +43,6 @@ export default function UserRoutes(app, db) {
   }; 
 
   const signout = (req, res) => {
-    // currentUser = null;
     req.session.destroy();  
     res.sendStatus(200);
   }; 
@@ -70,4 +64,7 @@ export default function UserRoutes(app, db) {
   app.post("/api/users/signin", signin); 
   app.post("/api/users/signout", signout); 
   app.post("/api/users/profile", profile); 
+
+  app.get("/api/users", findAllUsers); 
+
 } 
