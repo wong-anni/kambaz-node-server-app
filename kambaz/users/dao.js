@@ -4,16 +4,12 @@ import model from "./model.js";
 export default function UsersDao() { 
  const createUser = (user) => { 
    const newUser = { ...user, _id: uuidv4() }; 
-   users = [...users, newUser]; 
-   return newUser; 
+  //  users = [...users, newUser]; 
+   return model.create(newUser);  // insert new user into the database  
  }; 
  const findAllUsers = () => model.find(); 
  
-//  const findUserById = (userId) => model.findById(userId); 
- const findUserById = async (req, res) => { 
-    const user = await dao.findUserById(req.params.userId); 
-    res.json(user); 
-  };
+ const findUserById = (userId) => model.findById(userId); 
 
  const findUserByUsername = (username) =>  model.findOne({ username: username });
  const findUserByCredentials = (username, password) => model.findOne({ username, password });
@@ -26,7 +22,7 @@ export default function UsersDao() {
 };
 
  const updateUser = (userId, user) => model.updateOne({ _id: userId }, { $set: user }); 
- const deleteUser = (userId) => model.deleteOne({ _id: userId });
+ const deleteUser = (userId) =>  model.findByIdAndDelete( userId );
  return { 
    createUser, findAllUsers, findUserById, findUserByUsername, findUserByCredentials, findUsersByRole, findUsersByPartialName, updateUser, deleteUser }; 
 } 
