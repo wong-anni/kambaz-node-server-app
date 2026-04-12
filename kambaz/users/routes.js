@@ -30,9 +30,7 @@ export default function UserRoutes(app) {
   };    
 
   const findUserById = async (req, res) => { 
-  console.log("Requested ID:", req.params.userId); // testing
     const user = await dao.findUserById(req.params.userId); 
-    console.log("Returned user:", user); // testing
     res.json(user); 
   };
   
@@ -44,7 +42,6 @@ export default function UserRoutes(app) {
    if (currentUser && currentUser._id === userId) { 
      req.session["currentUser"] = { ...currentUser, ...userUpdates }; 
    } 
-    req.session["currentUser"] = currentUser;
     res.json(currentUser); 
   }; 
 
@@ -71,11 +68,12 @@ export default function UserRoutes(app) {
     }
   }; 
 
-  const signout = (req, res) => {
+  const signout = async (req, res) => {
     req.session.destroy();  
     res.sendStatus(200);
   }; 
-  const profile = (req, res) => { 
+
+  const profile = async (req, res) => { 
     const currentUser = req.session["currentUser"]; 
     if (!currentUser) { 
       res.sendStatus(401); 
