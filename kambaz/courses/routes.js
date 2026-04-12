@@ -1,9 +1,9 @@
 import CoursesDao from "./dao.js"; 
 import EnrollmentsDao from "../enrollments/dao.js"; 
 
-export default function CourseRoutes(app, db) { 
+export default function CourseRoutes(app) { 
   const dao = CoursesDao(); 
-  const enrollmentsDao = EnrollmentsDao(db); 
+  const enrollmentsDao = EnrollmentsDao(); 
     
   const createCourse = async (req, res) => {  
     const newCourse = await dao.createCourse(req.body);
@@ -73,8 +73,11 @@ export default function CourseRoutes(app, db) {
   
 
   app.get("/api/courses/:cid/users", findUsersForCourse);
-  app.post("/api/users/:uid/courses/:cid", enrollUserInCourse); 
-  app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse); 
+  
+  // server route for enrolling/unenrolling users in courses
+  // in react UI, lives in client.ts of dashboard folder  
+  app.post("/api/enrollments/:uid/:cid", enrollUserInCourse); 
+  app.delete("/api/enrollments/:uid/:cid", unenrollUserFromCourse); 
 
   app.put("/api/courses/:courseId", updateCourse);
   app.delete("/api/courses/:courseId", deleteCourse);

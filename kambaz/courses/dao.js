@@ -1,10 +1,9 @@
 import { v4 as uuidv4 } from "uuid"; 
 import model from "./model.js"; 
 
-export default function CoursesDao(db) { 
+export default function CoursesDao() { 
 
   function findAllCourses() { 
-    // return db.courses; local database in node.js
     return model.find({}, { name: 1, description: 1, image: 1 });  // mongodb database
   } 
   
