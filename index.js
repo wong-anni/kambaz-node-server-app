@@ -1,6 +1,8 @@
 //  index.js implements an HTTP server that responds Hello World! 
 // when the server receives an HTTP request at the URL http://localhost:4000/hello.
 import express from 'express'; 
+import mongoose from "mongoose"; 
+
 import Hello from "./hello.js"
 import Lab5 from "./lab5/index.js"; 
 import cors from "cors";
@@ -14,6 +16,9 @@ import AssignmentsRoutes from "./kambaz/assignments/routes.js";
 import EnrollmentsRoutes from "./kambaz/enrollments/routes.js";
 
 
+// referring to MongoDB server instance running in localhost machine, listening on port 27017, kambaz db existing in that server
+const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"        
+mongoose.connect(CONNECTION_STRING); 
 // const express = require('express')                               // equivalent to import; refactored to use import instead of require()
 const app = express()                                               // create new express instance  
 
