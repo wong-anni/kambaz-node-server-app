@@ -8,31 +8,11 @@ const assignmentSchema = new mongoose.Schema({
     due: String, 
     points: Number,
     description: String,
-    assignmentGroup: { 
-      type: String, 
-      enum: ["ASSIGNMENTS", "A1", "A2", "A3"], 
-      default: "ASSIGNMENTS", 
-    }, 
-    display: { 
-      type: String, 
-      enum: ["Percentage", "Fraction", "Letter", "Integer"], 
-      default: "Percentage", 
-    }, 
-    type: { 
-      type: String, 
-      enum: ["Online", "Paper"], 
-      default: "Online", 
-    }, 
-    options: { 
-      type: String, 
-      enum: ["Text Entry", "Website URL", "Media Recordings", "Student Annotation","File Upload"], 
-      default: "Text Entry", 
-    }, 
-    assign: { 
-      type: String, 
-      enum: ["Everyone"], 
-      default: "Everyone", 
-    }, 
+    assignmentGroup: String,
+    display: String,
+    type: String,
+    options: String,
+    assign: String,
     until: String 
 }, 
     { collection: "assignments" } 
